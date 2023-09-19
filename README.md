@@ -1,6 +1,6 @@
-# Refactored Code 
+<img width="959" alt="image" src="https://github.com/a2rp/calculate-mean-median-mode-from-array-of-objects/assets/5670738/85f0326d-20bb-4daf-b4e1-c16a8f5bb31f">
 
-<img width="960" alt="image" src="https://github.com/a2rp/manufac-yarn-refactored-code/assets/5670738/8f21b481-247e-4b47-b9bd-e28f978df760">
+
 
 # Getting Started with Create React App
 
