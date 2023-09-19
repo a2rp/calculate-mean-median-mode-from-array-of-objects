@@ -1,3 +1,8 @@
+- download or clone it
+- open terminal in the root folder
+- type "yarn install" to install node packages
+- run "yarn start" to run the application
+
 <img width="959" alt="image" src="https://github.com/a2rp/calculate-mean-median-mode-from-array-of-objects/assets/5670738/85f0326d-20bb-4daf-b4e1-c16a8f5bb31f">
 
 
