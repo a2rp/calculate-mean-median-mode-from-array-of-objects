@@ -1,4 +1,4 @@
-- download or clone it
+- download or clone the project
 - open terminal in the root folder
 - type "yarn install" to install node packages
 - run "yarn start" to run the application
