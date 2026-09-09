@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/calculate-mean-median-mode-from-array-of-objects/static/css/main.9403d7c7.css",
+    "main.js": "/calculate-mean-median-mode-from-array-of-objects/static/js/main.6060c4dd.js",
+    "index.html": "/calculate-mean-median-mode-from-array-of-objects/index.html",
+    "main.9403d7c7.css.map": "/calculate-mean-median-mode-from-array-of-objects/static/css/main.9403d7c7.css.map",
+    "main.6060c4dd.js.map": "/calculate-mean-median-mode-from-array-of-objects/static/js/main.6060c4dd.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9403d7c7.css",
+    "static/js/main.6060c4dd.js"
+  ]
+}
