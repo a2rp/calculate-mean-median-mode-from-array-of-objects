@@ -1,173 +1,19 @@
-import { useEffect, useState } from "react";
-import styles from "./App.module.scss";
+import { useMemo } from "react";
 import { wineDataSet } from "./files/wineDataSet";
+import styles from "./App.module.scss";
+
+const mean = (values) => values.reduce((sum, value) => sum + value, 0) / values.length;
+const median = (values) => { const sorted = [...values].sort((a, b) => a - b); const middle = Math.floor(sorted.length / 2); return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2; };
+const mode = (values) => { const counts = new Map(); values.forEach((value) => counts.set(value, (counts.get(value) || 0) + 1)); return [...counts.entries()].sort((a, b) => b[1] - a[1])[0][0]; };
+const format = (value) => value.toFixed(3);
 
 function App() {
-    const [alcoholClass, setAlcoholClass] = useState([]);
-
-    const [flavanoidsMean, setFlavanoidsMean] = useState([]);
-    const [flavanoidsMedian, setFlavanoidsMedian] = useState([]);
-    const [flavanoidsMode, setFlavanoidsMode] = useState([]);
-
-    const [gammaMean, setGammaMean] = useState([]);
-    const [gammaMedian, setGammaMedian] = useState([]);
-    const [gammaMode, setGammaMode] = useState([]);
-
-    const groupBy = (input, key) => {
-        return input.reduce((acc, currentValue) => {
-            let groupKey = currentValue[key];
-            if (!acc[groupKey]) {
-                acc[groupKey] = [];
-            }
-            acc[groupKey].push(currentValue);
-            return acc;
-        }, {});
-    };
-
-    const mean = arr => {
-        let total = 0;
-        for (let i = 0; i < arr.length; i++) {
-            total += arr[i];
-        }
-        return total / arr.length;
-    };
-
-    const median = arr => {
-        const { length } = arr;
-        arr.sort((a, b) => a - b);
-        if (length % 2 === 0) {
-            return (arr[length / 2 - 1] + arr[length / 2]) / 2;
-        }
-        return arr[(length - 1) / 2];
-    };
-
-    const mode = arr => {
-        const mode = {};
-        let max = 0, count = 0;
-        for (let i = 0; i < arr.length; i++) {
-            const item = arr[i];
-            if (mode[item]) {
-                mode[item]++;
-            } else {
-                mode[item] = 1;
-            }
-            if (count < mode[item]) {
-                max = item;
-                count = mode[item];
-            }
-        }
-        return max;
-    };
-
-    useEffect(() => {
-        // console.log(wineDataSet);
-        // console.log("winedataset length", wineDataSet.length);
-        const groupedData = groupBy(wineDataSet, "Alcohol");
-        // console.log(groupedData, "groupedData");
-
-        let tempFlavanoidsMean = [], tempFlavanoidsMedian = [], tempFlavanoidsMode = [];
-        let tempGammaMean = [], tempGammaMedian = [], tempGammaMode = [];
-        let tempAlcoholClass = [];
-        Object.entries(groupedData).forEach(([key, value]) => {
-            // console.log(key, value);
-            tempAlcoholClass.push(key);
-            let newArray = [];
-            let gammaArray = [];
-            Object.entries(value).forEach(([key1, value1], index) => {
-                newArray.push(Number(value[key1]["Flavanoids"]));
-                gammaArray.push((Number(value[key1]["Ash"]) * Number(value[key1]["Hue"])) / Number(value[key1]["Magnesium"]));
-            });
-            // console.log(key);
-            tempFlavanoidsMean[key] = mean(newArray).toFixed(3);
-            tempFlavanoidsMedian[key] = median(newArray).toFixed(3);
-            tempFlavanoidsMode[key] = mode(newArray).toFixed(3);
-
-            tempGammaMean[key] = mean(gammaArray).toFixed(3);
-            tempGammaMedian[key] = median(gammaArray).toFixed(3);
-            tempGammaMode[key] = mode(gammaArray).toFixed(3);
-        });
-        setAlcoholClass(tempAlcoholClass);
-
-        setFlavanoidsMean(tempFlavanoidsMean);
-        setFlavanoidsMedian(tempFlavanoidsMedian);
-        setFlavanoidsMode(tempFlavanoidsMode);
-
-        setGammaMean(tempGammaMean);
-        setGammaMedian(tempGammaMedian);
-        setGammaMode(tempGammaMode);
-
+    const groups = useMemo(() => {
+        const grouped = wineDataSet.reduce((result, item) => { const key = item.Alcohol; result[key] = result[key] || []; result[key].push(item); return result; }, {});
+        return Object.entries(grouped).map(([alcohol, records]) => { const flavanoids = records.map((item) => Number(item.Flavanoids)); const gamma = records.map((item) => (Number(item.Ash) * Number(item.Hue)) / Number(item.Magnesium)); return { alcohol, sampleSize: records.length, flavanoids: [mean(flavanoids), median(flavanoids), mode(flavanoids)], gamma: [mean(gamma), median(gamma), mode(gamma)] }; });
     }, []);
-
-    useEffect(() => {
-        // console.log("alcoholClass", alcoholClass);
-    }, [alcoholClass]);
-
-    return (
-        <div className={styles.container}>
-            <h1>Some Statistical Measures of Wine Data Set</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Measure</th>
-                        {alcoholClass.map(data => (
-                            <th>Alcohol Class {data}</th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Flavanoids Mean</td>
-                        {alcoholClass.map((data, index) => (
-                            <td>{flavanoidsMean[index + 1]}</td>
-                        ))}
-                    </tr>
-                    <tr>
-                        <td>Flavanoids Median</td>
-                        {alcoholClass.map((data, index) => (
-                            <td>{flavanoidsMedian[index + 1]}</td>
-                        ))}
-                    </tr>
-                    <tr>
-                        <td>Flavanoids Mode</td>
-                        {alcoholClass.map((data, index) => (
-                            <td>{flavanoidsMode[index + 1]}</td>
-                        ))}
-                    </tr>
-                </tbody>
-            </table>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Measure</th>
-                        {alcoholClass.map(data => (
-                            <th>Alcohol Class {data}</th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Gamma Mean</td>
-                        {alcoholClass.map((data, index) => (
-                            <td>{gammaMean[index + 1]}</td>
-                        ))}
-                    </tr>
-                    <tr>
-                        <td>Gamma Median</td>
-                        {alcoholClass.map((data, index) => (
-                            <td>{gammaMedian[index + 1]}</td>
-                        ))}
-                    </tr>
-                    <tr>
-                        <td>Gamma Mode</td>
-                        {alcoholClass.map((data, index) => (
-                            <td>{gammaMode[index + 1]}</td>
-                        ))}
-                    </tr>
-                </tbody>
-            </table>
-        </div >
-    );
+    const renderTable = (title, description, key) => <section className={styles.panel}><div className={styles.panelHeading}><div><p className={styles.eyebrow}>Dataset measure</p><h2>{title}</h2></div><span className={styles.badge}>{groups.length} classes</span></div><p className={styles.description}>{description}</p><div className={styles.tableWrap}><table><thead><tr><th>Measure</th>{groups.map((group) => <th key={group.alcohol}>Class {group.alcohol}<small>{group.sampleSize} records</small></th>)}</tr></thead><tbody>{["Mean", "Median", "Mode"].map((measure, index) => <tr key={measure}><th scope="row">{measure}</th>{groups.map((group) => <td key={group.alcohol}>{format(group[key][index])}</td>)}</tr>)}</tbody></table></div></section>;
+    return <main className={styles.container}><header className={styles.header}><div><p className={styles.kicker}>STATISTICS PLAYGROUND</p><h1>Wine dataset insights</h1><p className={styles.lead}>Compare descriptive statistics across alcohol classes using a transparent array-of-objects workflow.</p></div><div className={styles.summary}><strong>{wineDataSet.length}</strong><span>records analysed</span></div></header><div className={styles.grid}>{renderTable("Flavanoids", "Average, middle, and most frequent flavanoid value for each alcohol class.", "flavanoids")}{renderTable("Gamma", "Gamma is derived from Ash × Hue ÷ Magnesium for every record.", "gamma")}</div><footer className={styles.footer}>Built by <a href="https://www.ashishranjan.net/" target="_blank" rel="noreferrer">Ashish Ranjan</a> · <a href="https://github.com/a2rp" target="_blank" rel="noreferrer">View source</a></footer></main>;
 }
 
 export default App;
