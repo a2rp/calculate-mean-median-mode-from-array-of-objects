@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/calculate-mean-median-mode-from-array-of-objects/static/css/main.e7744f1a.css",
-    "main.js": "/calculate-mean-median-mode-from-array-of-objects/static/js/main.e3864783.js",
+    "main.css": "/calculate-mean-median-mode-from-array-of-objects/static/css/main.1fe68eee.css",
+    "main.js": "/calculate-mean-median-mode-from-array-of-objects/static/js/main.5612eee0.js",
     "index.html": "/calculate-mean-median-mode-from-array-of-objects/index.html",
-    "main.e7744f1a.css.map": "/calculate-mean-median-mode-from-array-of-objects/static/css/main.e7744f1a.css.map",
-    "main.e3864783.js.map": "/calculate-mean-median-mode-from-array-of-objects/static/js/main.e3864783.js.map"
+    "main.1fe68eee.css.map": "/calculate-mean-median-mode-from-array-of-objects/static/css/main.1fe68eee.css.map",
+    "main.5612eee0.js.map": "/calculate-mean-median-mode-from-array-of-objects/static/js/main.5612eee0.js.map"
   },
   "entrypoints": [
-    "static/css/main.e7744f1a.css",
-    "static/js/main.e3864783.js"
+    "static/css/main.1fe68eee.css",
+    "static/js/main.5612eee0.js"
   ]
 }
