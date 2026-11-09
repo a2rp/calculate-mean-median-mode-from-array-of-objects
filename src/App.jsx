@@ -1,9 +1,9 @@
 import { createElement, useEffect, useMemo, useState } from "react";
 import { FaFacebookF, FaGithub, FaLinkedinIn, FaYoutube } from "react-icons/fa";
-import { FiCode, FiCoffee, FiGlobe, FiLifeBuoy, FiMail, FiMenu, FiX } from "react-icons/fi";
+import { FiArrowUp, FiCode, FiCoffee, FiGlobe, FiLifeBuoy, FiMail, FiMenu, FiX } from "react-icons/fi";
 import { SiPatreon } from "react-icons/si";
 import { wineDataSet } from "./files/wineDataSet";
-import styles from "./App.module.scss";
+import styles from "./App.module.css";
 
 const mean = (values) => values.reduce((sum, value) => sum + value, 0) / values.length;
 const median = (values) => {
@@ -14,9 +14,17 @@ const median = (values) => {
 const mode = (values) => {
     const counts = new Map();
     values.forEach((value) => counts.set(value, (counts.get(value) || 0) + 1));
-    return [...counts.entries()].sort((a, b) => b[1] - a[1])[0][0];
+    const highestFrequency = Math.max(...counts.values());
+    if (highestFrequency === 1) return [];
+    return [...counts.entries()]
+        .filter(([, frequency]) => frequency === highestFrequency)
+        .map(([value]) => value)
+        .sort((a, b) => a - b);
 };
-const format = (value) => value.toFixed(3);
+const format = (value) => {
+    if (Array.isArray(value)) return value.length ? value.map((item) => item.toFixed(3)).join(", ") : "No mode";
+    return value.toFixed(3);
+};
 
 const footerLinks = [
     { label: "Portfolio", href: "https://www.ashishranjan.net/", icon: FiGlobe },
@@ -51,17 +59,17 @@ function App() {
 
     const groups = useMemo(() => {
         const grouped = wineDataSet.reduce((result, item) => {
-            const key = item.Alcohol;
+            const key = item.Class;
             result[key] = result[key] || [];
             result[key].push(item);
             return result;
         }, {});
 
-        return Object.entries(grouped).map(([alcohol, records]) => {
+        return Object.entries(grouped).map(([wineClass, records]) => {
             const flavanoids = records.map((item) => Number(item.Flavanoids));
             const gamma = records.map((item) => (Number(item.Ash) * Number(item.Hue)) / Number(item.Magnesium));
             return {
-                alcohol,
+                wineClass,
                 sampleSize: records.length,
                 flavanoids: [mean(flavanoids), median(flavanoids), mode(flavanoids)],
                 gamma: [mean(gamma), median(gamma), mode(gamma)],
@@ -85,8 +93,8 @@ function App() {
                         <tr>
                             <th>Measure</th>
                             {groups.map((group) => (
-                                <th key={group.alcohol}>
-                                    Class {group.alcohol}
+                                <th key={group.wineClass}>
+                                    Cultivar {group.wineClass}
                                     <small>{group.sampleSize} records</small>
                                 </th>
                             ))}
@@ -97,7 +105,7 @@ function App() {
                             <tr key={measure}>
                                 <th scope="row">{measure}</th>
                                 {groups.map((group) => (
-                                    <td key={group.alcohol}>{format(group[key][index])}</td>
+                                    <td key={group.wineClass}>{format(group[key][index])}</td>
                                 ))}
                             </tr>
                         ))}
@@ -112,7 +120,7 @@ function App() {
             <header className={styles.siteHeader}>
                 <div className={styles.headerBar}>
                     <a className={styles.brand} href="#statistics" aria-label="Wine dataset statistics home">
-                        <img className={styles.brandLogo} src={`${process.env.PUBLIC_URL}/logo.png`} alt="Wine dataset statistics logo" />
+                        <img className={styles.brandLogo} src={`${import.meta.env.BASE_URL}logo.png`} alt="Wine dataset statistics logo" />
                         <span>Wine Dataset Statistics</span>
                     </a>
                     <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`} aria-label="Main navigation">
@@ -136,7 +144,7 @@ function App() {
                     <div>
                         <p className={styles.kicker}>STATISTICS PLAYGROUND</p>
                         <h1>Wine dataset insights</h1>
-                        <p className={styles.lead}>Compare descriptive statistics across alcohol classes using a transparent array-of-objects workflow.</p>
+                        <p className={styles.lead}>Compare flavanoid and gamma measurements across the three wine cultivar classes with clear, reproducible statistics.</p>
                     </div>
                     <div className={styles.summary}>
                         <strong>{wineDataSet.length}</strong>
@@ -144,12 +152,13 @@ function App() {
                     </div>
                 </header>
                 <div className={styles.grid}>
-                    {renderTable("Flavanoids", "Average, middle, and most frequent flavanoid value for each alcohol class.", "flavanoids")}
-                    {renderTable("Gamma", "Gamma is derived from Ash x Hue / Magnesium for every record.", "gamma")}
+                    {renderTable("Flavanoids", "Mean, median, and mode of the flavanoid feature for each cultivar class.", "flavanoids")}
+                    {renderTable("Gamma", "Mean, median, and mode of gamma, calculated as Ash × Hue ÷ Magnesium for each record.", "gamma")}
                 </div>
                 <section className={styles.about} id="about">
                     <p className={styles.eyebrow}>About this project</p>
-                    <p>Explore a compact statistical summary of the wine dataset, grouped by alcohol class for quick comparison.</p>
+                    <p>This page uses the UCI Wine dataset. Its class column identifies three cultivars; it is separate from the Alcohol feature. “No mode” means every value in that class occurs once. When multiple values tie for the highest frequency, all modes are shown.</p>
+                    <p className={styles.source}>Dataset: <a href="https://archive.ics.uci.edu/dataset/109/wine" target="_blank" rel="noopener noreferrer">UCI Machine Learning Repository: Wine</a>, licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>.</p>
                 </section>
             </main>
 
@@ -175,7 +184,7 @@ function App() {
 
             {showTopButton && (
                 <button className={styles.toTop} type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Go to top" title="Go to top">
-                    ↑
+                    <FiArrowUp aria-hidden="true" />
                 </button>
             )}
         </div>

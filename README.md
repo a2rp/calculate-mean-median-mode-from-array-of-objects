@@ -1,29 +1,37 @@
 # Wine Dataset Statistics
 
-A React data exploration app that groups wine records by alcohol class and compares mean, median, and mode values for flavanoids and derived gamma measurements.
+A responsive React dashboard that compares mean, median, and mode for selected chemical measurements across the three cultivar classes in the UCI Wine dataset.
 
 ![Wine Dataset Statistics screenshot](screenshot.png)
 
 ## Features
 
-- Grouped wine dataset analysis
-- Mean, median, and mode comparison tables
-- Derived gamma measurement from Ash, Hue, and Magnesium values
-- Responsive layout with accessible navigation and local project branding
-- GitHub Pages deployment
+- Displays statistics for flavanoids and gamma by cultivar class.
+- Calculates gamma as `Ash × Hue ÷ Magnesium` for each record.
+- Reports every tied mode and labels a dataset with no repeated values as **No mode**.
+- Includes all 178 source records and validates each row when loading the data.
+- Adapts to mobile screens and supports keyboard-accessible navigation.
+
+The dataset's first column is the cultivar class. It is distinct from the `Alcohol` feature, so classes are not alcohol ranges.
+
+## Dataset and attribution
+
+This project includes the [Wine dataset](https://archive.ics.uci.edu/dataset/109/wine) from the UCI Machine Learning Repository. The dataset contains 178 records, three cultivar classes, and 13 chemical features. It is licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/). Dataset file: [`src/files/wine.data`](src/files/wine.data).
 
 ## Tech stack
 
-React, Create React App, Sass, and React Icons.
+React, Vite, and React Icons.
 
 ## Run locally
 
+Requires Node.js 20.19 or later.
+
 ```bash
 npm install
-npm start
+npm run dev
 ```
 
-Create a production build with `npm run build` and deploy with `npm run deploy`.
+Create a production build with `npm run build`, preview it with `npm run preview`, or publish the `dist` directory to GitHub Pages with `npm run deploy`.
 
 ## Links
 

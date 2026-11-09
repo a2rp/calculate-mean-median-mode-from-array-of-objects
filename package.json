@@ -1,44 +1,30 @@
 {
-  "name": "refactored-javascript",
-  "homepage": "https://a2rp.github.io/calculate-mean-median-mode-from-array-of-objects",
-  "version": "0.1.0",
+  "name": "wine-dataset-statistics",
+  "version": "1.0.0",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^13.0.0",
-    "@testing-library/user-event": "^13.2.1",
-    "gh-pages": "^6.3.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-icons": "^5.7.0",
-    "react-scripts": "5.0.1",
-    "sass": "^1.66.1",
-    "web-vitals": "^2.1.0"
+  "type": "module",
+  "description": "A React app for exploring statistics from the UCI Wine dataset.",
+  "author": "Ashish Ranjan",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.19.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "postbuild": "node scripts/create-pages-fallback.js",
     "predeploy": "npm run build",
-    "deploy": "npx --yes gh-pages -d build -b gh-pages",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "deploy": "gh-pages -d dist -b gh-pages"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-icons": "^5.7.0"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.3.0",
+    "gh-pages": "^6.3.0",
+    "vite": "^8.3.6"
   }
 }
