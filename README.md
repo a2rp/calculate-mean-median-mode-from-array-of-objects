@@ -16,7 +16,7 @@ The dataset's first column is the cultivar class. It is distinct from the `Alcoh
 
 ## Dataset and attribution
 
-This project includes the [Wine dataset](https://archive.ics.uci.edu/dataset/109/wine) from the UCI Machine Learning Repository. The dataset contains 178 records, three cultivar classes, and 13 chemical features. It is licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/). Dataset file: [`src/files/wine.data`](src/files/wine.data).
+The [Wine dataset](https://archive.ics.uci.edu/dataset/109/wine) was created by Aeberhard and Forina (1992) and is hosted by the UCI Machine Learning Repository. Cite it as: Aeberhard, S. & Forina, M. (1992). *Wine* [Dataset]. [doi:10.24432/C5PC7J](https://doi.org/10.24432/C5PC7J). It contains 178 records, three cultivar classes, and 13 chemical features, and is licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/). This project derives gamma as `Ash × Hue ÷ Magnesium`; the source data is unchanged. Dataset file: [`src/files/wine.data`](src/files/wine.data). Repository code is licensed under MIT.
 
 ## Tech stack
 

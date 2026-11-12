@@ -144,7 +144,7 @@ function App() {
                     <div>
                         <p className={styles.kicker}>STATISTICS PLAYGROUND</p>
                         <h1>Wine dataset insights</h1>
-                        <p className={styles.lead}>Compare flavanoid and gamma measurements across the three wine cultivar classes with clear, reproducible statistics.</p>
+                        <p className={styles.lead}>Compare flavanoids and gamma measurements across the three wine cultivar classes with clear, reproducible statistics.</p>
                     </div>
                     <div className={styles.summary}>
                         <strong>{wineDataSet.length}</strong>
@@ -152,13 +152,13 @@ function App() {
                     </div>
                 </header>
                 <div className={styles.grid}>
-                    {renderTable("Flavanoids", "Mean, median, and mode of the flavanoid feature for each cultivar class.", "flavanoids")}
+                    {renderTable("Flavanoids", "Mean, median, and mode of the flavanoids feature for each cultivar class.", "flavanoids")}
                     {renderTable("Gamma", "Mean, median, and mode of gamma, calculated as Ash × Hue ÷ Magnesium for each record.", "gamma")}
                 </div>
                 <section className={styles.about} id="about">
                     <p className={styles.eyebrow}>About this project</p>
                     <p>This page uses the UCI Wine dataset. Its class column identifies three cultivars; it is separate from the Alcohol feature. “No mode” means every value in that class occurs once. When multiple values tie for the highest frequency, all modes are shown.</p>
-                    <p className={styles.source}>Dataset: <a href="https://archive.ics.uci.edu/dataset/109/wine" target="_blank" rel="noopener noreferrer">UCI Machine Learning Repository: Wine</a>, licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>.</p>
+                    <p className={styles.source}>Dataset: Aeberhard and Forina (1992), <a href="https://archive.ics.uci.edu/dataset/109/wine" target="_blank" rel="noopener noreferrer">UCI Machine Learning Repository: Wine</a>, <a href="https://doi.org/10.24432/C5PC7J" target="_blank" rel="noopener noreferrer">doi:10.24432/C5PC7J</a>, licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>.</p>
                 </section>
             </main>
 
